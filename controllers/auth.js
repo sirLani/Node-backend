@@ -194,3 +194,18 @@ export const findPeople = async (req, res) => {
     console.log(err);
   }
 };
+
+export const userFollow = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.auth._id,
+      {
+        $addToSet: { following: req.body._id },
+      },
+      { new: true }
+    ).select("-password -secret");
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
