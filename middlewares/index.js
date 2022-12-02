@@ -1,18 +1,18 @@
-var { expressjwt: jwt } = require("express-jwt");
-import Post from "../models/post";
-import User from "../models/user";
+const { expressjwt: jwt } = require('express-jwt');
+const Post = require('../models/post');
+const User = require('../models/user');
 
-export const requireSignin = jwt({
+const requireSignin = jwt({
   secret: process.env.JWT_SECRET,
-  algorithms: ["HS256"],
+  algorithms: ['HS256'],
 });
 
-export const canEditDeletePost = async (req, res, next) => {
+const canEditDeletePost = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params._id);
     // console.log("POST in EDITDELETE MIDDLEWARE => ", post);
     if (req.auth._id != post.postedBy) {
-      return res.status(400).send("Unauthorized");
+      return res.status(400).send('Unauthorized');
     } else {
       next();
     }
@@ -21,7 +21,7 @@ export const canEditDeletePost = async (req, res, next) => {
   }
 };
 
-export const addFollower = async (req, res, next) => {
+const addFollower = async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(req.body._id, {
       $addToSet: { followers: req.auth._id },
@@ -30,4 +30,22 @@ export const addFollower = async (req, res, next) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+const removeFollower = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.body._id, {
+      $pull: { followers: req.auth._id },
+    });
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = {
+  requireSignin,
+  canEditDeletePost,
+  addFollower,
+  removeFollower,
 };

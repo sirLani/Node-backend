@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Schema;
 
 const postSchema = new mongoose.Schema(
@@ -9,20 +9,20 @@ const postSchema = new mongoose.Schema(
     },
     postedBy: {
       type: ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     image: {
       url: String,
       public_id: String,
     },
-    likes: [{ type: ObjectId, ref: "user" }],
+    likes: [{ type: ObjectId, ref: 'user' }],
     comments: [
       {
         text: String,
         created: { type: Date, default: Date.now },
         postedBy: {
           type: ObjectId,
-          ref: "User",
+          ref: 'User',
         },
       },
     ],
@@ -30,4 +30,4 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Post", postSchema);
+module.exports = mongoose.model('Post', postSchema);

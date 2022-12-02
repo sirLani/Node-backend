@@ -1,28 +1,18 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import { readdirSync } from "fs";
+const app = require('./app');
 
-const morgan = require("morgan");
-require("dotenv").config();
+// const port = process.env.PORT || 8001;
+// app.listen(8001, () => console.log(`Server running on port ${port}`));
 
-const app = express();
+init();
 
-//db
+async function init() {
+  try {
+    const port = process.env.PORT || 8001;
+    app.listen(port, () => console.log(`Server running on port ${port}`));
+  } catch (error) {
+    console.error(`An error occurred: ${JSON.stringify(error)}`);
+    process.exit(1);
+  }
+}
 
-mongoose
-  .connect(process.env.DATABASE, {})
-  .then(() => console.log("DB CONNECTED"))
-  .catch((err) => console.log("DB CONNECTION ERROR", err));
-
-// middlewares
-app.use(express.json({ limit: "5mb" }));
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-
-// autoload routes
-readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)));
-
-const port = process.env.PORT || 8001;
-
-app.listen(port, () => console.log(`Server running on port ${port}`));
+module.exports = init;
