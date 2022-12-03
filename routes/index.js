@@ -12,6 +12,7 @@ const {
   unlikePost,
   addComment,
   removeComment,
+  totalPosts,
 } = require('../controllers/post');
 
 // middleware
@@ -66,10 +67,11 @@ router.delete(
   canEditDeletePost,
   deletePost
 );
-router.get('/news-feed', requireSignin, newsFeed);
+router.get('/news-feed/:page', requireSignin, newsFeed);
 router.put('/like-post', requireSignin, likePost);
 router.put('/unlike-post', requireSignin, unlikePost);
 router.put('/add-comment', requireSignin, addComment);
 router.put('/remove-comment', requireSignin, removeComment);
+router.get('/total-posts', totalPosts);
 
 module.exports = router;

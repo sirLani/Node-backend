@@ -2,10 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { readdirSync } = require('fs');
+// const { readdirSync } = require('fs');
 const routes = require('./routes/index');
 
-const morgan = require('morgan');
+// const morgan = require('morgan');
 
 const app = express();
 
@@ -27,4 +27,7 @@ app.use(cors());
 // );
 app.use('/api/v1', routes);
 
+app.all('*', (req, res) => {
+  return res.status(404).json({ message: '#NOT_FOUND 😒😒😒' });
+});
 module.exports = app;
