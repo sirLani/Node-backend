@@ -57,7 +57,9 @@ const postsByUser = async (req, res) => {
 
 const userPost = async (req, res) => {
   try {
-    const post = await Post.findById(req.params._id);
+    const post = await Post.findById(req.params._id)
+      .populate('postedBy', '_id name image')
+      .populate('comments.postedBy', '_id name image');
     res.json(post);
   } catch (err) {
     console.log(err);
@@ -97,6 +99,7 @@ const newsFeed = async (req, res) => {
 
     const posts = await Post.find({ postedBy: { $in: following } })
       .populate('postedBy', '_id name image')
+      .populate('comments.postedBy', '_id name image')
       .sort({ createdAt: -1 })
       .limit(10);
 
@@ -148,6 +151,7 @@ const addComment = async (req, res) => {
     )
       .populate('postedBy', '_id name image')
       .populate('comments.postedBy', '_id name image');
+    console.log(post);
     res.json(post);
   } catch (err) {
     console.log(err);
