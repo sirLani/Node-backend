@@ -34,6 +34,7 @@ const {
   userFollow,
   userFollowing,
   userUnfollow,
+  getUser,
 } = require('../controllers/auth');
 
 const router = express.Router();
@@ -49,6 +50,7 @@ router.get('/find-people', requireSignin, findPeople);
 router.put('/user-follow', requireSignin, addFollower, userFollow);
 router.put('/user-unfollow', requireSignin, removeFollower, userUnfollow);
 router.get('/user-following', requireSignin, userFollowing);
+router.get('/user/:username', getUser);
 
 //POSTS
 
