@@ -187,6 +187,24 @@ const totalPosts = async (req, res) => {
   }
 };
 
+const searchUser = async (req, res) => {
+  const { query } = req.params;
+  if (!query) return;
+  try {
+    // $regex is special method from mongodb
+    // The i modifier is used to perform case-insensitive matching
+    const user = await User.find({
+      $or: [
+        { name: { $regex: query, $options: 'i' } },
+        { username: { $regex: query, $options: 'i' } },
+      ],
+    }).select('_id name username image');
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   createPost,
   uploadImage,
@@ -200,4 +218,5 @@ module.exports = {
   addComment,
   removeComment,
   totalPosts,
+  searchUser,
 };
