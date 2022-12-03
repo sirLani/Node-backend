@@ -1,8 +1,13 @@
+process.env.NODE_ENV = 'test';
+
+const expect = require('chai').expect;
 const request = require('supertest');
 const server = require('../server');
 
-const SECONDS = 1000;
-jest.setTimeout(70 * SECONDS);
+const conn = require('../models/user');
+
+// const SECONDS = 1000;
+// jest.setTimeout(30 * SECONDS);
 
 describe('app', () => {
   it('returns 200 OK when signup request is valid', async (done) => {

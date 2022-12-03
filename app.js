@@ -11,10 +11,22 @@ const app = express();
 
 //db
 
-mongoose
-  .connect(process.env.DATABASE, {})
-  .then(() => console.log('DB CONNECTED'))
-  .catch((err) => console.log('DB CONNECTION ERROR', err));
+if (process.env.NODE_ENV === 'test') {
+  const Mockgoose = require('mockgoose').Mockgoose;
+  const mockgoose = new Mockgoose(mongoose);
+
+  mockgoose.prepareStorage().then(() => {
+    mongoose
+      .connect(process.env.DATABASE, {})
+      .then(() => console.log('DB CONNECTED'))
+      .catch((err) => console.log('DB CONNECTION ERROR', err));
+  });
+} else {
+  mongoose
+    .connect(process.env.DATABASE, {})
+    .then(() => console.log('DB CONNECTED'))
+    .catch((err) => console.log('DB CONNECTION ERROR', err));
+}
 
 // middlewares
 app.use(express.json({ limit: '5mb' }));
