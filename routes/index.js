@@ -14,6 +14,8 @@ const {
   removeComment,
   totalPosts,
   searchUser,
+  posts,
+  getPost,
 } = require('../controllers/post');
 
 // middleware
@@ -77,5 +79,7 @@ router.put('/add-comment', requireSignin, addComment);
 router.put('/remove-comment', requireSignin, removeComment);
 router.get('/total-posts', totalPosts);
 router.get('/search-user/:query', searchUser);
+router.get('/posts', posts);
+router.get('/post/:_id', getPost);
 
 module.exports = router;
