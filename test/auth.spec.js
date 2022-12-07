@@ -1,28 +1,19 @@
 process.env.NODE_ENV = 'test';
 
-const expect = require('chai').expect;
-const request = require('supertest');
-const server = require('../server');
+const chai = require('chai');
+const { expect } = chai;
+const chaiHttp = require('chai-http');
+const server = require('../app');
 
-const conn = require('../models/user');
+chai.use(chaiHttp);
 
 // const SECONDS = 1000;
 // jest.setTimeout(30 * SECONDS);
 
 describe('app', () => {
-  it('returns 200 OK when signup request is valid', async (done) => {
-    request(server)
-      .post('/api/v1/register')
-      .send({
-        username: 'user',
-        email: 'user@mail.com',
-        password: 'password',
-        secret: 'red',
-        name: 'user',
-      })
-      .then((response) => {
-        expect(response.status).toBe(200);
-        done();
-      });
+  it('returns 200 OK when request is valid', async () => {
+    const response = await chai.request(server).get('/api/v1/posts');
+    console.log(response.body);
+    expect(response).to.have.status(200);
   });
 });
