@@ -14,7 +14,7 @@ const {
   removeComment,
   totalPosts,
   searchUser,
-  posts,
+  getAllPosts,
   getPost,
 } = require('../controllers/post');
 
@@ -79,7 +79,7 @@ router.put('/add-comment', requireSignin, addComment);
 router.put('/remove-comment', requireSignin, removeComment);
 router.get('/total-posts', totalPosts);
 router.get('/search-user/:query', searchUser);
-router.get('/posts', posts);
+router.get('/all-posts', getAllPosts);
 router.get('/post/:_id', getPost);
 
 module.exports = router;

@@ -1,13 +1,8 @@
 const app = require('./app');
 
-// const port = process.env.PORT || 8001;
-// app.listen(8001, () => console.log(`Server running on port ${port}`));
-
-init();
-
 async function init() {
   try {
-    const port = process.env.PORT || 8001;
+    const port = process.env.PORT || 8000;
     app.listen(port, () => console.log(`Server running on port ${port}`));
   } catch (error) {
     console.error(`An error occurred: ${JSON.stringify(error)}`);
@@ -15,4 +10,4 @@ async function init() {
   }
 }
 
-module.exports = init;
+init();
