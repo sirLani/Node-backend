@@ -221,7 +221,6 @@ const getAllPosts = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
-    console.log(req);
     const post = await Post.findById(req.params._id)
       .populate('postedBy', '_id name image')
       .populate('comments.postedBy', '_id name image');

@@ -1,5 +1,7 @@
 const app = require('./app');
 
+init();
+
 async function init() {
   try {
     const port = process.env.PORT || 8000;
@@ -9,5 +11,3 @@ async function init() {
     process.exit(1);
   }
 }
-
-init();
