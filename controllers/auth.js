@@ -9,23 +9,26 @@ const register = async (req, res) => {
   const { name, email, password, secret } = req.body;
   // validation
   if (!name) {
-    return res.json({
+    return res.status(400).json({
       error: 'Name is required',
     });
   }
+  // if (!isPasswordAllowed(password)) {
+  //   return res.status(400).json({message: `password is not strong enough`})
+  // }
   if (!password || password.length < 6) {
-    return res.json({
+    return res.status(400).json({
       error: 'Password is required and should be min 6 characters long',
     });
   }
   if (!secret) {
-    return res.json({
+    return res.status(400).json({
       error: 'Answer is required',
     });
   }
   const exist = await User.findOne({ email });
   if (exist) {
-    return res.json({
+    return res.status(400).json({
       error: 'Email is taken',
     });
   }
@@ -55,6 +58,13 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email) {
+    return res.status(400).json({ message: `email has to be filled` });
+  }
+  if (!password) {
+    return res.status(400).json({ message: `password can't be blank` });
+  }
   try {
     const { email, password } = req.body;
     // check if our db has user with that email
@@ -68,7 +78,7 @@ const login = async (req, res) => {
     // check password
     const match = await comparePassword(password, user.password);
     if (!match) {
-      return res.json({
+      return res.status(400).json({
         error: 'Wrong password',
       });
     }
